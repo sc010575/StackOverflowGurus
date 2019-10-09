@@ -11,7 +11,7 @@ import UIKit
 final class HomeViewCell: UITableViewCell {
 
     enum UIConstant {
-        static let buttonDimention: CGFloat = 30
+        static let buttonDimention: CGFloat = 40
         static let stackViewSpacing: CGFloat = 15
         static let tralingContentPadding: CGFloat = 12
         static let leadingContentPadding: CGFloat = 8
@@ -31,23 +31,42 @@ final class HomeViewCell: UITableViewCell {
     let followUnfollowButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "follow").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private let followUnFollowLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Follow"
+        return label
+    }()
+
 
     let blockButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "block").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    private let blockLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Block"
+        return label
+    }()
+
 
     lazy private var actionStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [self.followUnfollowButton, self.blockButton])
+        let stackView = UIStackView(arrangedSubviews: [self.followUnfollowButton, self.followUnFollowLabel,self.blockButton,self.blockLabel])
         stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.alignment = .fill
+        stackView.distribution = .fill
+      //  stackView.alignment = .firstBaseline
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.backgroundColor = .lightGray
         stackView.spacing = 5
         return stackView
     }()
@@ -64,18 +83,18 @@ final class HomeViewCell: UITableViewCell {
     }
 
     fileprivate func setup() {
-        backgroundColor = .white
+        backgroundColor = .lightGray
         addSubview(actionStackView)
         NSLayoutConstraint.activate([
             followUnfollowButton.widthAnchor.constraint(equalToConstant: UIConstant.buttonDimention),
             followUnfollowButton.heightAnchor.constraint(equalTo: followUnfollowButton.widthAnchor),
             blockButton.widthAnchor.constraint(equalToConstant: UIConstant.buttonDimention),
             blockButton.heightAnchor.constraint(equalTo: blockButton.widthAnchor),
-            
+
             actionStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: UIConstant.leadingContentPadding),
             actionStackView.rightAnchor.constraint(equalTo: rightAnchor, constant: -UIConstant.tralingContentPadding),
-            actionStackView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            actionStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            actionStackView.topAnchor.constraint(equalTo: topAnchor),
+            actionStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
 
             ])
     }

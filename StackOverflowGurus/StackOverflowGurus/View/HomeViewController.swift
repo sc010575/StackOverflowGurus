@@ -32,7 +32,7 @@ class HomeViewController: UITableViewController {
     fileprivate func setup() {
         tableView?.register(HomeViewCell.self, forCellReuseIdentifier: cellId)
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 60
         tableView.separatorStyle = .none
         fetchUser()
     }
@@ -57,9 +57,11 @@ extension HomeViewController
 {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = HomeViewHeader(frame: CGRect.zero)
-        header.cellViewModel = users[section]
-        header.onButtonTapHandler {
-            print("tapped: \(section)")
+        header.viewModel = users[section]
+        header.onButtonTapHandler { [weak self] isExpanded in
+            self?.users[section].isExpanded = isExpanded
+            header.viewModel = self?.users[section]
+            self?.handleExpandClose(section: section, expanded: isExpanded)
         }
         return header
     }
@@ -88,5 +90,17 @@ extension HomeViewController
         return 140
     }
 
+    fileprivate func handleExpandClose(section: Int, expanded: Bool) {
+
+        // we'll try to close the section first by deleting the rows
+
+        let user: CellViewModel = users[section]
+        let indexPath = IndexPath(row: 0, section: section)
+        if user.isExpanded {
+            tableView.insertRows(at: [indexPath], with: .fade)
+        } else {
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }
 

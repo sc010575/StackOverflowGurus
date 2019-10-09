@@ -19,7 +19,7 @@ class HomeViewHeader: UIView {
         static let nameRepuStackViewSpacing: CGFloat = 5
     }
 
-    private var buttonTapHandler: (() -> ())?
+    private var buttonTapHandler: ((Bool) -> ())?
 
 
     private let seperator: UIView = {
@@ -31,9 +31,9 @@ class HomeViewHeader: UIView {
 
 
 
-    var cellViewModel: CellViewModel? {
+    var viewModel: CellViewModel? {
         didSet {
-            guard let viewModel = cellViewModel else {
+            guard let viewModel = viewModel else {
                 return
             }
             profileImageView.loadImage(urlString: viewModel.prifileImage ?? "")
@@ -60,6 +60,16 @@ class HomeViewHeader: UIView {
         return label
     }()
 
+    private var expandButton: UIButton = {
+
+        let button = UIButton(type: .system)
+        button.setImage(#imageLiteral(resourceName: "downarrow").withRenderingMode(.alwaysOriginal), for: .normal)
+        button.addTarget(self, action: #selector(handleExpandClose), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+
+    }()
+
     lazy private var nameRepuStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [self.nameLabel, self.reputationLabel])
         stackView.axis = .vertical
@@ -70,16 +80,6 @@ class HomeViewHeader: UIView {
         return stackView
     }()
 
-    private let expandButton: UIButton = {
-
-        let button = UIButton(type: .system)
-        button.setImage(#imageLiteral(resourceName: "downarrow").withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(self, action: #selector(handleExpandClose), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.tag = section
-        return button
-
-    }()
 
 
     lazy private var cellStackView: UIStackView = {
@@ -122,11 +122,16 @@ class HomeViewHeader: UIView {
             ])
     }
 
-    func onButtonTapHandler(_ handler: (() -> ())?) {
+    func onButtonTapHandler(_ handler: ((Bool) -> ())?) {
         buttonTapHandler = handler
     }
 
     @objc func handleExpandClose() {
-        buttonTapHandler?()
+        guard var cellViewModel = viewModel else { return }
+        let isExpanded = cellViewModel.isExpanded
+        cellViewModel.isExpanded = !isExpanded
+        let image = isExpanded ? UIImage(imageLiteralResourceName: "downarrow") : UIImage(imageLiteralResourceName: "uparrow")
+         expandButton.setImage(image.withRenderingMode(.alwaysOriginal), for: .normal)
+        buttonTapHandler?(!isExpanded)
     }
 }
