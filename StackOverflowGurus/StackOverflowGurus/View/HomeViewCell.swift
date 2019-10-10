@@ -27,7 +27,6 @@ final class HomeViewCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "follow").withRenderingMode(.alwaysOriginal), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
-        button.addTarget(self, action: #selector(handleFollowUnFollow), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -46,7 +45,6 @@ final class HomeViewCell: UITableViewCell {
         button.setImage(#imageLiteral(resourceName: "block").withRenderingMode(.alwaysOriginal), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.clipsToBounds = true
-        button.addTarget(self, action: #selector(handleBlocked), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -83,6 +81,9 @@ final class HomeViewCell: UITableViewCell {
     fileprivate func setup() {
         backgroundColor = .lightGray
         addSubview(actionStackView)
+        blockButton.addTarget(self, action: #selector(handleBlocked), for: .touchUpInside)
+        followUnfollowButton.addTarget(self, action: #selector(handleFollowUnFollow), for: .touchUpInside)
+
         contentView.isUserInteractionEnabled = false
         selectionStyle = .none
         NSLayoutConstraint.activate([
