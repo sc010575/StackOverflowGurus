@@ -30,10 +30,12 @@ class HomeViewController: UITableViewController {
     }
 
     fileprivate func setup() {
+        title = "StackOverflow Users"
         tableView?.register(HomeViewCell.self, forCellReuseIdentifier: cellId)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 60
         tableView.separatorStyle = .none
+        tableView.alwaysBounceVertical = false
         fetchUser()
     }
 
@@ -81,8 +83,19 @@ extension HomeViewController
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! HomeViewCell
-        //       cell.cellViewModel = users[indexPath.row]
+        guard  let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as? HomeViewCell else { return UITableViewCell() }
+        cell.cellViewModel = users[indexPath.row]
+       
+
+        cell.onTapBlocked{ 
+            cell.cellViewModel?.isBlocked = true
+            //Handle blocked state
+        }
+        
+        cell.onTapFollowUnFollow{
+            //Handle follow or unfollow
+            cell.cellViewModel?.isFollow = true
+        }
         return cell
     }
 
@@ -91,16 +104,17 @@ extension HomeViewController
     }
 
     fileprivate func handleExpandClose(section: Int, expanded: Bool) {
-
-        // we'll try to close the section first by deleting the rows
-
+        // try to close the section first by deleting the rows
         let user: CellViewModel = users[section]
         let indexPath = IndexPath(row: 0, section: section)
         if user.isExpanded {
             tableView.insertRows(at: [indexPath], with: .fade)
+          //  self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+
         } else {
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+
     }
 }
 

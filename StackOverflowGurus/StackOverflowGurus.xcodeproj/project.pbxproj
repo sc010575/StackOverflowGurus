@@ -28,6 +28,7 @@
 		C5BCBE31234DC01700DDE1AF /* CachedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BCBE30234DC01700DDE1AF /* CachedImageView.swift */; };
 		C5BCBE33234DC59900DDE1AF /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BCBE32234DC59900DDE1AF /* HomeViewCell.swift */; };
 		C5BCBE35234E1B9200DDE1AF /* HomeViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BCBE34234E1B9200DDE1AF /* HomeViewHeader.swift */; };
+		C5BCBE3C234F0FF900DDE1AF /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5BCBE3B234F0FF900DDE1AF /* Coordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		C5BCBE30234DC01700DDE1AF /* CachedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedImageView.swift; sourceTree = "<group>"; };
 		C5BCBE32234DC59900DDE1AF /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		C5BCBE34234E1B9200DDE1AF /* HomeViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewHeader.swift; sourceTree = "<group>"; };
+		C5BCBE3B234F0FF900DDE1AF /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 		C5BCBDEE234B5CB300DDE1AF /* StackOverflowGurus */ = {
 			isa = PBXGroup;
 			children = (
+				C5BCBE3A234F0FD000DDE1AF /* Coordinator */,
 				C5BCBE24234B8F2700DDE1AF /* Service */,
 				C5BCBE14234B5CE500DDE1AF /* Extension */,
 				C5BCBE13234B5CD700DDE1AF /* ViewModel */,
@@ -116,6 +119,7 @@
 				C5BCBDF1234B5CB300DDE1AF /* SceneDelegate.swift */,
 				C5BCBDF8234B5CB500DDE1AF /* Assets.xcassets */,
 				C5BCBDFA234B5CB500DDE1AF /* LaunchScreen.storyboard */,
+				C5BCBDF5234B5CB300DDE1AF /* Main.storyboard */,
 				C5BCBDFD234B5CB500DDE1AF /* Info.plist */,
 				C5BCBE1E234B809100DDE1AF /* Serialization.swift */,
 			);
@@ -139,7 +143,6 @@
 			isa = PBXGroup;
 			children = (
 				C5BCBDF3234B5CB300DDE1AF /* HomeViewController.swift */,
-				C5BCBDF5234B5CB300DDE1AF /* Main.storyboard */,
 				C5BCBE30234DC01700DDE1AF /* CachedImageView.swift */,
 				C5BCBE32234DC59900DDE1AF /* HomeViewCell.swift */,
 				C5BCBE34234E1B9200DDE1AF /* HomeViewHeader.swift */,
@@ -187,6 +190,14 @@
 				C5BCBE2C234B967900DDE1AF /* NetworkMock.swift */,
 			);
 			path = Mock;
+			sourceTree = "<group>";
+		};
+		C5BCBE3A234F0FD000DDE1AF /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				C5BCBE3B234F0FF900DDE1AF /* Coordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,6 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5BCBE3C234F0FF900DDE1AF /* Coordinator.swift in Sources */,
 				C5BCBE2F234BDAC100DDE1AF /* CellViewModel.swift in Sources */,
 				C5BCBE31234DC01700DDE1AF /* CachedImageView.swift in Sources */,
 				C5BCBE35234E1B9200DDE1AF /* HomeViewHeader.swift in Sources */,

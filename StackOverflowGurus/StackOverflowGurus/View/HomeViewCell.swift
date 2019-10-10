@@ -19,19 +19,15 @@ final class HomeViewCell: UITableViewCell {
 
 
 
-//    var cellViewModel: CellViewModel? {
-//        didSet {
-//            guard let cellModel = cellViewModel else { return }
-//            profileImageView.loadImage(urlString: cellModel.prifileImage ?? "")
-//            nameLabel.text = "Name: \(cellModel.name)"
-//            reputationLabel.text = "Reputation: \(cellModel.reputation)"
-//        }
-//    }
+    var cellViewModel: CellViewModel?
+    private var blockUserHandler: (()->())?
+    private var followUnfollowUserHandler: (()->())?
 
-    let followUnfollowButton: UIButton = {
+    private let followUnfollowButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "follow").withRenderingMode(.alwaysOriginal), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(handleFollowUnFollow), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -43,11 +39,14 @@ final class HomeViewCell: UITableViewCell {
         return label
     }()
 
+    
 
-    let blockButton: UIButton = {
+    private let blockButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "block").withRenderingMode(.alwaysOriginal), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
+        button.clipsToBounds = true
+        button.addTarget(self, action: #selector(handleBlocked), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -64,7 +63,6 @@ final class HomeViewCell: UITableViewCell {
         let stackView = UIStackView(arrangedSubviews: [self.followUnfollowButton, self.followUnFollowLabel,self.blockButton,self.blockLabel])
         stackView.axis = .horizontal
         stackView.distribution = .fill
-      //  stackView.alignment = .firstBaseline
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.backgroundColor = .lightGray
         stackView.spacing = 5
@@ -85,17 +83,36 @@ final class HomeViewCell: UITableViewCell {
     fileprivate func setup() {
         backgroundColor = .lightGray
         addSubview(actionStackView)
+        contentView.isUserInteractionEnabled = false
+        selectionStyle = .none
         NSLayoutConstraint.activate([
             followUnfollowButton.widthAnchor.constraint(equalToConstant: UIConstant.buttonDimention),
             followUnfollowButton.heightAnchor.constraint(equalTo: followUnfollowButton.widthAnchor),
             blockButton.widthAnchor.constraint(equalToConstant: UIConstant.buttonDimention),
             blockButton.heightAnchor.constraint(equalTo: blockButton.widthAnchor),
-
             actionStackView.leftAnchor.constraint(equalTo: leftAnchor, constant: UIConstant.leadingContentPadding),
             actionStackView.rightAnchor.constraint(equalTo: rightAnchor, constant: -UIConstant.tralingContentPadding),
             actionStackView.topAnchor.constraint(equalTo: topAnchor),
             actionStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
 
             ])
+    }
+    
+    func onTapBlocked(_ handler:(()->())?) {
+        self.blockUserHandler = handler
+    }
+    
+    func onTapFollowUnFollow(_ handler:(()->())?) {
+        self.followUnfollowUserHandler = handler
+    }
+
+    @objc fileprivate func handleFollowUnFollow() {
+        print("handleFollowUnFollow")
+        followUnfollowUserHandler?()
+    }
+    
+    @objc fileprivate func handleBlocked() {
+        print("Blocked ")
+        blockUserHandler?()
     }
 }

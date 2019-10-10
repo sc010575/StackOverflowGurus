@@ -12,8 +12,8 @@ class CustomNavigationController: UINavigationController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
-    static func makeNavigationController(_ viewModel:HomeViewModelUseCase = HomeViewModel()) -> CustomNavigationController {
+
+    static func makeNavigationController(_ viewModel: HomeViewModelUseCase = HomeViewModel()) -> CustomNavigationController {
         let viewModel = HomeViewModel()
         let navController = CustomNavigationController(rootViewController: HomeViewController(viewModel: viewModel))
         return navController
@@ -27,11 +27,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     var window: UIWindow?
+    private var applicationCoordinator: Coordinator?
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.makeKeyAndVisible()
+
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        
         let navController = CustomNavigationController.makeNavigationController()
-        window?.rootViewController = navController
+        navController.navigationBar.barTintColor = UIColor.rgb(red: 230, green: 32, blue: 31)
+        let applicationCoordinator = ApplicationCoordinator(window: window, navController: navController)
+        self.window = window
+        self.applicationCoordinator = applicationCoordinator
+        applicationCoordinator.start()
         return true
     }
 

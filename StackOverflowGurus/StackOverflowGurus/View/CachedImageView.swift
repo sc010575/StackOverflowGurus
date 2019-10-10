@@ -83,13 +83,6 @@ class CachedImageView: UIImageView {
             completion?()
             return
         }
-
-        guard let url = URL(string: urlString) else {
-            if shouldUseEmptyImage {
-                image = emptyImage
-            }
-            return
-        }
         
         let network = Network()
         network.send(url: urlString) { [weak self] (result) in
